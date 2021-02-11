@@ -1,26 +1,30 @@
 import { Router } from 'express';
-import Sale from '../models/Sale';
+import { startOfHour, parseISO } from 'date-fns';
+import SaleRepository from '../repositories/SaleRepository';
 
 const sellingRoutes = Router();
+const saleRepository = new SaleRepository();
 
-interface ISell{
-  seller: string;
-  product:{
-    name: string
-    type: string
-    price: number;
-  },
-  dateSale: Date;
-}
+sellingRoutes.get('/', (request, response) => {
+  const findSaleForDate = saleRepository.findForDate({ dateSale });
 
-const sales: ISell[] = [];
+  if (!findSaleForDate) {
+    return response.json({ message: 'not sale found for this date' });
+  }
+
+  return response.json({ findSaleForDate });
+});
 
 sellingRoutes.post('/', (request, response) => {
   const { seller, product: { name, type, price }, dateSale } = request.body;
 
-  const sale = new Sale({ seller, product: { name, type, price }, dateSale });
+  const parsedDate = startOfHour(parseISO(dateSale));
 
-  sales.push(sale);
+  const sale = saleRepository.create({
+    seller,
+    product: { name, type, price },
+    dateSale: parsedDate,
+  });
 
   return response.json({ sale });
 });
