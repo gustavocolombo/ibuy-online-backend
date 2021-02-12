@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { startOfHour, parseISO } from 'date-fns';
+import { parseISO } from 'date-fns';
 import SaleRepository from '../repositories/SaleRepository';
+import CreateSaleService from '../services/CreateSaleService';
 
 const sellingRoutes = Router();
 const saleRepository = new SaleRepository();
@@ -9,7 +10,7 @@ sellingRoutes.get('/', (request, response) => {
   const findSaleForDate = saleRepository.findForDate({ dateSale });
 
   if (!findSaleForDate) {
-    return response.json({ message: 'not sale found for this date' });
+    return response.status(400).json({ message: 'not sale found for this date' });
   }
 
   return response.json({ findSaleForDate });
@@ -18,13 +19,11 @@ sellingRoutes.get('/', (request, response) => {
 sellingRoutes.post('/', (request, response) => {
   const { seller, product: { name, type, price }, dateSale } = request.body;
 
-  const parsedDate = startOfHour(parseISO(dateSale));
+  const createSale = new CreateSaleService(saleRepository);
 
-  const sale = saleRepository.create({
-    seller,
-    product: { name, type, price },
-    dateSale: parsedDate,
-  });
+  const parsedDate = parseISO(dateSale);
+
+  const sale = createSale.execute({ seller, product: { name, type, price }, dateSale: parsedDate });
 
   return response.json({ sale });
 });
