@@ -22,9 +22,9 @@ export default class Seller {
   @Column()
   email: string;
 
-  @CreateDateColumn('timestamp with time zone')
+  @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn('timestamp with time zone')
+  @UpdateDateColumn()
   update_at: Date;
 }
