@@ -29,7 +29,7 @@ sellingRoutes.post('/', (request, response) => {
     seller, name, type, price, dateSale: parsedDate,
   });
 
-  return response.json({ sale });
+  return response.json(sale);
 });
 
 export default sellingRoutes;

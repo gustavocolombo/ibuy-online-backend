@@ -4,13 +4,10 @@ import SaleRepository from '../repositories/SaleRepository';
 
 interface ISale{
   id: string;
-
   seller: string;
-
   name: string;
   type: string;
   price: number;
-
   dateSale: Date;
 }
 

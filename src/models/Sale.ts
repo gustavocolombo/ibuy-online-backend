@@ -5,11 +5,9 @@ interface ISale{
 
   seller: string;
 
-  product:{
-    name: string;
-    type: string;
-    price: number;
-  }
+  name: string;
+  type: string;
+  price: number;
 
   dateSale: Date;
 }
@@ -19,18 +17,22 @@ export default class Sale {
 
   seller: string;
 
-  product:{
-    name: string;
-    type: string;
-    price: number;
-  }
+  name: string;
+
+  type: string;
+
+  price: number;
 
   dateSale: Date;
 
-  constructor({ seller, product: { name, type, price }, dateSale }: ISale) {
+  constructor({
+    seller, name, type, price, dateSale,
+  }: ISale) {
     this.id = uuid();
     this.seller = seller;
-    this.product = { name, type, price };
+    this.name = name;
+    this.price = price;
+    this.type = type;
     this.dateSale = dateSale;
   }
 }
