@@ -17,13 +17,17 @@ sellingRoutes.get('/', (request, response) => {
 });
 
 sellingRoutes.post('/', (request, response) => {
-  const { seller, product: { name, type, price }, dateSale } = request.body;
+  const {
+    seller, name, type, price, dateSale,
+  } = request.body;
 
   const createSale = new CreateSaleService(saleRepository);
 
   const parsedDate = parseISO(dateSale);
 
-  const sale = createSale.execute({ seller, product: { name, type, price }, dateSale: parsedDate });
+  const sale = createSale.execute({
+    seller, name, type, price, dateSale: parsedDate,
+  });
 
   return response.json({ sale });
 });

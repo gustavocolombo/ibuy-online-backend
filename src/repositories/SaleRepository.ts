@@ -6,11 +6,9 @@ interface ISale{
 
   seller: string;
 
-  product:{
-    name: string;
-    type: string;
-    price: number;
-  }
+  name: string;
+  type: string;
+  price: number;
 
   dateSale: Date;
 }
@@ -22,8 +20,12 @@ export default class SaleRepository {
     this.sales = [];
   }
 
-  public create({ seller, product: { name, type, price }, dateSale }: ISale): Sale {
-    const sale = new Sale({ seller, product: { name, type, price }, dateSale });
+  public create({
+    seller, name, type, price, dateSale,
+  }: ISale): Sale {
+    const sale = new Sale({
+      seller, name, type, price, dateSale,
+    });
 
     this.sales.push(sale);
 

@@ -7,11 +7,9 @@ interface ISale{
 
   seller: string;
 
-  product:{
-    name: string;
-    type: string;
-    price: number;
-  }
+  name: string;
+  type: string;
+  price: number;
 
   dateSale: Date;
 }
@@ -23,12 +21,16 @@ export default class CreateSaleService {
     this.saleRepository = saleRepository;
   }
 
-  public execute({ seller, product: { name, type, price }, dateSale }: ISale): Sale {
+  public execute({
+    seller, name, type, price, dateSale,
+  }: ISale): Sale {
     const saleDate = startOfHour(dateSale);
 
     const sale = this.saleRepository.create({
       seller,
-      product: { name, type, price },
+      name,
+      type,
+      price,
       dateSale: saleDate,
     });
 
