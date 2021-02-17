@@ -29,6 +29,8 @@ sellingRoutes.post('/', (request, response) => {
     seller, name, type, price, dateSale: parsedDate,
   });
 
+  console.log(sale);
+
   return response.json(sale);
 });
 

@@ -18,7 +18,7 @@ export class CreateSale1613568568849 implements MigrationInterface {
           isNullable: false,
         },
         {
-          name: 'type_product',
+          name: 'type',
           type: 'varchar',
           isNullable: false,
         },

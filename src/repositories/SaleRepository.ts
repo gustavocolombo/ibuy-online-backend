@@ -27,6 +27,8 @@ export default class SaleRepository {
       seller, name, type, price, dateSale,
     });
 
+    // console.log(sale);
+
     this.sales.push(sale);
 
     return sale;

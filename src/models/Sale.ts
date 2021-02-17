@@ -1,38 +1,24 @@
-import { uuid } from 'uuidv4';
+import { PrimaryGeneratedColumn, Entity, Column } from 'typeorm';
 
-interface ISale{
+@Entity('sale')
+class Sale {
+  @PrimaryGeneratedColumn()
   id: string;
 
+  @Column()
   seller: string;
 
+  @Column()
   name: string;
+
+  @Column()
   type: string;
+
+  @Column()
   price: number;
 
+  @Column('timestamp with time zone')
   dateSale: Date;
 }
 
-export default class Sale {
-  id: string;
-
-  seller: string;
-
-  name: string;
-
-  type: string;
-
-  price: number;
-
-  dateSale: Date;
-
-  constructor({
-    seller, name, type, price, dateSale,
-  }: ISale) {
-    this.id = uuid();
-    this.seller = seller;
-    this.name = name;
-    this.price = price;
-    this.type = type;
-    this.dateSale = dateSale;
-  }
-}
+export default Sale;
