@@ -3,9 +3,9 @@ import { getCustomRepository } from 'typeorm';
 import SellerRepository from '../repositories/SellerRepository';
 import CreateSaleService from '../services/CreateSaleService';
 
-const sellingRoutes = Router();
+const sellerRoutes = Router();
 
-sellingRoutes.get('/', (request, response) => {
+sellerRoutes.get('/', (request, response) => {
   const sellerRepository = getCustomRepository(SellerRepository);
   const findSeller = sellerRepository.findByID(request.params.id);
 
@@ -16,18 +16,18 @@ sellingRoutes.get('/', (request, response) => {
   return response.json({ findSaleForDate });
 });
 
-sellingRoutes.post('/', async (request, response) => {
+sellerRoutes.post('/', async (request, response) => {
   const {
     seller, login, password, telefone, email,
   } = request.body;
 
-  const createSale = new CreateSaleService();
+  const createSeller = new CreateSaleService();
 
-  const sale = await createSale.execute({
+  const seller = await createSeller.execute({
     seller, login, password, telefone, email,
   });
 
-  return response.json(sale);
+  return response.json(seller);
 });
 
-export default sellingRoutes;
+export default sellerRoutes;
