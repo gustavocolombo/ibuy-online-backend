@@ -1,16 +1,15 @@
 import { Router } from 'express';
-import { parseISO } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
-import SaleRepository from '../repositories/SaleRepository';
+import SellerRepository from '../repositories/SellerRepository';
 import CreateSaleService from '../services/CreateSaleService';
 
 const sellingRoutes = Router();
 
 sellingRoutes.get('/', (request, response) => {
-  const saleRepository = getCustomRepository(SaleRepository);
-  const findSaleForDate = saleRepository.findForDate({ dateSale });
+  const sellerRepository = getCustomRepository(SellerRepository);
+  const findSeller = sellerRepository.findByID(request.params.id);
 
-  if (!findSaleForDate) {
+  if (!findSeller) {
     return response.status(400).json({ message: 'not sale found for this date' });
   }
 
@@ -19,24 +18,16 @@ sellingRoutes.get('/', (request, response) => {
 
 sellingRoutes.post('/', async (request, response) => {
   const {
-    seller, name, type, price, dateSale,
+    seller, login, password, telefone, email,
   } = request.body;
 
   const createSale = new CreateSaleService();
 
-  const parsedDate = parseISO(dateSale);
-
   const sale = await createSale.execute({
-    seller, name, type, price, dateSale: parsedDate,
+    seller, login, password, telefone, email,
   });
 
   return response.json(sale);
 });
 
 export default sellingRoutes;
-
-/*
-criar o usuario
-cadastrar o produto
-criar a venda
-*/

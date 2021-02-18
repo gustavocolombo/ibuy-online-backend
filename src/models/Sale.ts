@@ -1,12 +1,12 @@
-import { PrimaryGeneratedColumn, Entity, Column } from 'typeorm';
+import {
+  PrimaryGeneratedColumn, Entity, Column, OneToOne, JoinColumn,
+} from 'typeorm';
+import Seller from './Seller';
 
 @Entity('sale')
 class Sale {
   @PrimaryGeneratedColumn()
   id: string;
-
-  @Column()
-  seller: string;
 
   @Column()
   name: string;
@@ -19,6 +19,10 @@ class Sale {
 
   @Column('timestamp with time zone')
   dateSale: Date;
+
+  @OneToOne(() => Seller, { eager: true })
+  @JoinColumn({ name: 'seller_id' })
+  seller_id: Seller;
 }
 
 export default Sale;

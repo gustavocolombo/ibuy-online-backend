@@ -1,35 +1,29 @@
-import { startOfHour } from 'date-fns';
+// import { startOfHour } from 'date-fns';
+import { getCustomRepository } from 'typeorm';
 import Sale from '../models/Sale';
 import SaleRepository from '../repositories/SaleRepository';
 
 interface ISale{
-  id: string;
   seller: string;
   name: string;
-  type: string;
   price: number;
-  dateSale: Date;
+  // dateSale: Date;
 }
 
 export default class CreateSaleService {
-  private saleRepository : SaleRepository;
+  public async execute({
+    name, type, price, dateSale,
+  }: ISale): Promise<Sale> {
+    const saleRepository = getCustomRepository(SaleRepository);
 
-  constructor(saleRepository: SaleRepository) {
-    this.saleRepository = saleRepository;
-  }
+    // const saleDate = startOfHour(dateSale);
 
-  public execute({
-    seller, name, type, price, dateSale,
-  }: ISale): Sale {
-    const saleDate = startOfHour(dateSale);
-
-    const sale = this.saleRepository.create({
+    const sale = saleRepository.create({
       seller,
-      name,
-      type,
-      price,
-      dateSale: saleDate,
+      product,
     });
+
+    await saleRepository.save(sale);
 
     return sale;
   }
