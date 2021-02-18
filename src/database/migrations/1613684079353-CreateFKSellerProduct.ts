@@ -3,10 +3,10 @@ import {
   MigrationInterface, QueryRunner, TableColumn, TableForeignKey,
 } from 'typeorm';
 
-export class CreateFKinSale1613602920696 implements MigrationInterface {
+export class CreateFKSellerProduct1613684079353 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.addColumn(
-      'sale',
+      'product',
       new TableColumn({
         name: 'seller_id',
         type: 'uuid',
@@ -14,9 +14,9 @@ export class CreateFKinSale1613602920696 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'sale',
+      'product',
       new TableForeignKey({
-        name: 'SellerOnSale',
+        name: 'SellerForSale',
         columnNames: ['seller_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'seller',
@@ -27,7 +27,7 @@ export class CreateFKinSale1613602920696 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('sale', 'SellerOnSale');
-    await queryRunner.dropColumn('sale', 'seller_id');
+    await queryRunner.dropForeignKey('sale', 'ProductToSale');
+    await queryRunner.dropColumn('product', 'seller_id');
   }
 }

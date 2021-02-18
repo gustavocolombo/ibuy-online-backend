@@ -13,10 +13,10 @@ interface CreateSeller{
 export default class CreateSellerService {
   public async execute({
     name, login, password, telefone, email,
-  }: CreateSeller): Seller {
+  }: CreateSeller): Promise<Seller> {
     const sellerRepository = getCustomRepository(SellerRepository);
 
-    const checkIfSellerExists = sellerRepository.findOne({
+    const checkIfSellerExists = await sellerRepository.findOne({
       where: { email },
     });
 

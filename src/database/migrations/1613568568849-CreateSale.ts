@@ -1,5 +1,7 @@
 /* eslint-disable import/prefer-default-export */
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+  MigrationInterface, QueryRunner, Table, TableForeignKey,
+} from 'typeorm';
 
 export class CreateSale1613568568849 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -15,10 +17,6 @@ export class CreateSale1613568568849 implements MigrationInterface {
           default: 'uuid_generate_v4()',
         },
         {
-          name: 'name',
-          type: 'varchar',
-        },
-        {
           name: 'type',
           type: 'varchar',
         },
@@ -27,15 +25,33 @@ export class CreateSale1613568568849 implements MigrationInterface {
           type: 'float',
         },
         {
-          name: 'dateSale',
-          type: 'timestamp with time zone',
-          default: 'now()',
+          name: 'seller_id',
+          type: 'uuid',
+          default: 'uuid_generate_v4()',
+        },
+        {
+          name: 'product_id',
+          type: 'uuid',
+          default: 'uuid_generate_v4()',
         },
       ],
     }));
+
+    await queryRunner.createForeignKey(
+      'sale',
+      new TableForeignKey({
+        name: 'SellerToSale',
+        columnNames: ['seller_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'seller',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      }),
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropForeignKey('sale', 'ProductToSale');
     await queryRunner.dropTable('sale');
   }
 }
