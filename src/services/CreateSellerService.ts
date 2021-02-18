@@ -16,6 +16,14 @@ export default class CreateSellerService {
   }: CreateSeller): Seller {
     const sellerRepository = getCustomRepository(SellerRepository);
 
+    const checkIfSellerExists = sellerRepository.findOne({
+      where: { email },
+    });
+
+    if (checkIfSellerExists) {
+      throw new Error('this email is already used');
+    }
+
     const createSeller = sellerRepository.create({
       name, login, password, telefone, email,
     });

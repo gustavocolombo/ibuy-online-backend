@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { getCustomRepository } from 'typeorm';
 import SellerRepository from '../repositories/SellerRepository';
-import CreateSaleService from '../services/CreateSaleService';
+import CreateSellerService from '../services/CreateSellerService';
 
 const sellerRoutes = Router();
 
@@ -17,17 +17,21 @@ sellerRoutes.get('/', (request, response) => {
 });
 
 sellerRoutes.post('/', async (request, response) => {
-  const {
-    seller, login, password, telefone, email,
-  } = request.body;
+  try {
+    const {
+      seller, login, password, telefone, email,
+    } = request.body;
 
-  const createSeller = new CreateSaleService();
+    const createSeller = new CreateSellerService();
 
-  const seller = await createSeller.execute({
-    seller, login, password, telefone, email,
-  });
+    const seller = await createSeller.execute({
+      seller, login, password, telefone, email,
+    });
 
-  return response.json(seller);
+    return response.json(seller);
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
+  }
 });
 
 export default sellerRoutes;

@@ -4,23 +4,21 @@ import Sale from '../models/Sale';
 import SaleRepository from '../repositories/SaleRepository';
 
 interface ISale{
-  seller: string;
   name: string;
-  price: number;
-  // dateSale: Date;
+  login: string;
+  password: string;
+  telefone: string;
+  email: string;
 }
 
 export default class CreateSaleService {
   public async execute({
-    name, type, price, dateSale,
+    name, login, password, telefone, email,
   }: ISale): Promise<Sale> {
     const saleRepository = getCustomRepository(SaleRepository);
 
-    // const saleDate = startOfHour(dateSale);
-
     const sale = saleRepository.create({
-      seller,
-      product,
+      name, login, password, telefone, email,
     });
 
     await saleRepository.save(sale);
