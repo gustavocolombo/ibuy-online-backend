@@ -19,13 +19,13 @@ sellerRoutes.get('/', (request, response) => {
 sellerRoutes.post('/', async (request, response) => {
   try {
     const {
-      seller, login, password, telefone, email,
+      name, login, password, telefone, email,
     } = request.body;
 
     const createSeller = new CreateSellerService();
 
     const seller = await createSeller.execute({
-      seller, login, password, telefone, email,
+      name, login, password, telefone, email,
     });
 
     return response.json(seller);
@@ -35,3 +35,7 @@ sellerRoutes.post('/', async (request, response) => {
 });
 
 export default sellerRoutes;
+
+/*
+falta relacionamentos nos models
+*/

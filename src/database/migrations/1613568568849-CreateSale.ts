@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import {
-  MigrationInterface, QueryRunner, Table, TableForeignKey,
+  MigrationInterface, QueryRunner, Table,
 } from 'typeorm';
 
 export class CreateSale1613568568849 implements MigrationInterface {
@@ -36,22 +36,9 @@ export class CreateSale1613568568849 implements MigrationInterface {
         },
       ],
     }));
-
-    await queryRunner.createForeignKey(
-      'sale',
-      new TableForeignKey({
-        name: 'SellerToSale',
-        columnNames: ['seller_id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'seller',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-      }),
-    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('sale', 'ProductToSale');
     await queryRunner.dropTable('sale');
   }
 }
