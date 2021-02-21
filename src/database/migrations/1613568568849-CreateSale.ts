@@ -11,28 +11,57 @@ export class CreateSale1613568568849 implements MigrationInterface {
       columns: [
         {
           name: 'id',
-          type: 'varchar',
+          type: 'uuid',
           isPrimary: true,
           generationStrategy: 'uuid',
           default: 'uuid_generate_v4()',
         },
         {
-          name: 'type',
-          type: 'varchar',
-        },
-        {
-          name: 'price',
-          type: 'float',
-        },
-        {
-          name: 'seller_id',
+          name: 'order_id',
           type: 'uuid',
-          default: 'uuid_generate_v4()',
+          isNullable: true,
         },
         {
           name: 'product_id',
           type: 'uuid',
-          default: 'uuid_generate_v4()',
+          isNullable: true,
+        },
+        {
+          name: 'price',
+          type: 'decimal',
+          precision: 6,
+          scale: 2,
+        },
+        {
+          name: 'quantity',
+          type: 'int',
+          default: 1,
+        },
+        {
+          name: 'created_at',
+          type: 'timestamp',
+          default: 'now()',
+        },
+        {
+          name: 'updated_at',
+          type: 'timestamp',
+          default: 'now()',
+        },
+      ],
+      foreignKeys: [
+        {
+          name: 'ordersProductsOrder',
+          referencedTableName: 'orders',
+          referencedColumnNames: ['id'],
+          columnNames: ['order_id'],
+          onDelete: 'SET NULL',
+        },
+        {
+          name: 'ordersProductsProduct',
+          referencedTableName: 'products',
+          referencedColumnNames: ['id'],
+          columnNames: ['product_id'],
+          onDelete: 'SET NULL',
         },
       ],
     }));
