@@ -1,7 +1,7 @@
+/* eslint-disable import/prefer-default-export */
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-// eslint-disable-next-line import/prefer-default-export
-export class CreateFKSellerToSale1613871301256 implements MigrationInterface {
+export class CreateOrders1615232824683 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -17,7 +17,6 @@ export class CreateFKSellerToSale1613871301256 implements MigrationInterface {
           {
             name: 'seller_id',
             type: 'uuid',
-            isNullable: true,
           },
           {
             name: 'created_at',
@@ -32,7 +31,7 @@ export class CreateFKSellerToSale1613871301256 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: 'SellerToSale',
+            name: 'ordersSeller',
             referencedTableName: 'seller',
             referencedColumnNames: ['id'],
             columnNames: ['seller_id'],

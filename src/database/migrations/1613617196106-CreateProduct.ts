@@ -26,6 +26,11 @@ export class CreateProduct1613617196106 implements MigrationInterface {
           name: 'price',
           type: 'float',
         },
+        {
+          name: 'quantity',
+          type: 'int',
+          default: 1,
+        },
       ],
     }));
   }
