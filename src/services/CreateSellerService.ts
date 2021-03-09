@@ -1,4 +1,5 @@
 import { getCustomRepository } from 'typeorm';
+import { hash } from 'bcryptjs';
 import Seller from '../models/Seller';
 import SellerRepository from '../repositories/SellerRepository';
 
@@ -24,8 +25,10 @@ export default class CreateSellerService {
       throw new Error('this email is already used');
     }
 
+    const hashedPassword = await hash(password, 8);
+
     const createSeller = sellerRepository.create({
-      name, login, password, telefone, email,
+      name, login, password: hashedPassword, telefone, email,
     });
 
     await sellerRepository.save(createSeller);
