@@ -2,6 +2,7 @@ import { Router } from 'express';
 import productRoutes from './product.routes';
 import sellerRoutes from './seller.routes';
 import sessionRoutes from './session.routes';
+import sellingRoutes from './selling.routes';
 
 const routes = Router();
 routes.use('/sales', sellingRoutes);

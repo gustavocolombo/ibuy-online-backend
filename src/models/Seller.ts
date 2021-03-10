@@ -11,9 +11,6 @@ export default class Seller {
   name: string;
 
   @Column()
-  login: string;
-
-  @Column()
   password: string;
 
   @Column()

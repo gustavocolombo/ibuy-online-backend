@@ -5,7 +5,6 @@ import SellerRepository from '../repositories/SellerRepository';
 
 interface CreateSeller{
   name: string;
-  login: string;
   password: number;
   telefone: string;
   email: string;
@@ -13,7 +12,7 @@ interface CreateSeller{
 
 export default class CreateSellerService {
   public async execute({
-    name, login, password, telefone, email,
+    name, password, telefone, email,
   }: CreateSeller): Promise<Seller> {
     const sellerRepository = getCustomRepository(SellerRepository);
 
@@ -28,7 +27,7 @@ export default class CreateSellerService {
     const hashedPassword = await hash(password, 8);
 
     const createSeller = sellerRepository.create({
-      name, login, password: hashedPassword, telefone, email,
+      name, password: hashedPassword, telefone, email,
     });
 
     await sellerRepository.save(createSeller);

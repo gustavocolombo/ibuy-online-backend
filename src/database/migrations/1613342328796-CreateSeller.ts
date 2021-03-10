@@ -19,10 +19,6 @@ export class CreateSeller1613342328796 implements MigrationInterface {
           type: 'varchar',
         },
         {
-          name: 'login',
-          type: 'varchar',
-        },
-        {
           name: 'password',
           type: 'varchar',
         },
