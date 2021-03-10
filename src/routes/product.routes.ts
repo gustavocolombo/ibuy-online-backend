@@ -17,17 +17,21 @@ productRoutes.get('/', (request, response) => {
 });
 
 productRoutes.post('/', async (request, response) => {
-  const {
-    name, type, price,
-  } = request.body;
+  try {
+    const {
+      name, type, price,
+    } = request.body;
 
-  const createProduct = new CreateProductService();
+    const createProduct = new CreateProductService();
 
-  const product = await createProduct.execute({
-    name, type, price,
-  });
+    const product = await createProduct.execute({
+      name, type, price,
+    });
 
-  return response.json(product);
+    return response.json(product);
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
+  }
 });
 
 export default productRoutes;

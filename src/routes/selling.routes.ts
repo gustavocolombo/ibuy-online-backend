@@ -18,25 +18,23 @@ sellingRoutes.get('/', (request, response) => {
 });
 
 sellingRoutes.post('/', async (request, response) => {
-  const {
-    seller, name, type, price, dateSale,
-  } = request.body;
+  try {
+    const {
+      seller, name, type, price, dateSale,
+    } = request.body;
 
-  const createSale = new CreateSaleService();
+    const createSale = new CreateSaleService();
 
-  const parsedDate = parseISO(dateSale);
+    const parsedDate = parseISO(dateSale);
 
-  const sale = await createSale.execute({
-    seller, name, type, price, dateSale: parsedDate,
-  });
+    const sale = await createSale.execute({
+      seller, name, type, price, dateSale: parsedDate,
+    });
 
-  return response.json(sale);
+    return response.json(sale);
+  } catch (err) {
+    return response.status(400).json({ error: err.message });
+  }
 });
 
 export default sellingRoutes;
-
-/*
-criar o usuario
-cadastrar o produto
-criar a venda
-*/

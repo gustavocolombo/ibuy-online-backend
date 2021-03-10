@@ -1,6 +1,8 @@
-import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
+import { sign } from 'jsonwebtoken';
+import { getRepository } from 'typeorm';
 import Seller from '../models/Seller';
+import authConfig from '../config/auth';
 
 interface Request{
   email: string;
@@ -8,7 +10,8 @@ interface Request{
 }
 
 interface Response{
-  user: User;
+  user: User
+  token: string
 }
 
 export default class AuthenticateUserService {
@@ -20,17 +23,23 @@ export default class AuthenticateUserService {
     });
 
     if (!findSeller) {
-      throw new Error('Combination user/password does not match');
+      throw new Error('The combination of email/password does not match');
     }
 
     const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {
-      throw new Error('Combination user/password does not match');
+      throw new Error('The combination of email/password does not match');
     }
+
+    const token = sign({}, authConfig.jwt.secret, {
+      subject: user.id,
+      expiresIn: authConfig.jwt.expiresIn,
+    });
 
     return {
       user,
+      token,
     };
   }
 }
